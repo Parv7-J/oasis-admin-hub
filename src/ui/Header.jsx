@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import Logout from "../features/authentication/Logout";
 import { useDarkMode } from "../context/DarkModeContext";
-import { HiOutlineMoon, HiOutlineSun, HiUser } from "react-icons/hi2";
+import { HiBars3, HiOutlineMoon, HiOutlineSun, HiUser } from "react-icons/hi2";
 import ButtonIcon from "./ButtonIcon";
 import ButtonGroup from "./ButtonGroup";
 import { useNavigate } from "react-router-dom";
@@ -15,24 +15,38 @@ const StyledHeader = styled.header`
   display: flex;
   gap: 3.4rem;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
 `;
 
-function Header() {
+const UserInfo = styled.div`
+  display: flex;
+  gap: 3.4rem;
+  align-items: center;
+  justify-content: space-between;
+`;
+function Header({ handleSidebar }) {
+  //alternate would be to create a context for sidebar
   const { darkMode, darkModeToggle } = useDarkMode();
   const navigate = useNavigate();
   return (
     <StyledHeader>
-      <UserAvatar />
-      <ButtonGroup>
-        <ButtonIcon onClick={() => navigate("/account")}>
-          <HiUser />
-        </ButtonIcon>
-        <Logout />
-        <ButtonIcon onClick={darkModeToggle}>
-          {darkMode ? <HiOutlineSun /> : <HiOutlineMoon />}
-        </ButtonIcon>
-      </ButtonGroup>
+      <ButtonIcon onClick={handleSidebar}>
+        <HiBars3 />
+      </ButtonIcon>
+
+      <UserInfo>
+        <UserAvatar />
+
+        <ButtonGroup>
+          <ButtonIcon onClick={() => navigate("/account")}>
+            <HiUser />
+          </ButtonIcon>
+          <Logout />
+          <ButtonIcon onClick={darkModeToggle}>
+            {darkMode ? <HiOutlineSun /> : <HiOutlineMoon />}
+          </ButtonIcon>
+        </ButtonGroup>
+      </UserInfo>
     </StyledHeader>
   );
 }
