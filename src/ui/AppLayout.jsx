@@ -1,11 +1,13 @@
-import { Outlet } from "react-router-dom";
 import styled from "styled-components";
+import { Outlet } from "react-router-dom";
+
 import Header from "./Header";
 import Sidebar from "./Sidebar.jsx";
+import { useState } from "react";
 
 const StyledAppLayout = styled.div`
   display: grid;
-  grid-template-columns: 26rem 1fr;
+  grid-template-columns: ${(props) => (props.openSidebar ? "26rem 1fr" : "")};
   grid-template-rows: auto 1fr;
   height: 100vh;
 `;
@@ -25,10 +27,11 @@ const Container = styled.div`
 `;
 
 function AppLayout() {
+  const [openSidebar, setOpenSidebar] = useState(true);
   return (
-    <StyledAppLayout>
-      <Header />
-      <Sidebar />
+    <StyledAppLayout openSidebar={openSidebar}>
+      <Header handleSidebar={() => setOpenSidebar((open) => !open)} />
+      {openSidebar && <Sidebar />}
       <Main>
         <Container>
           <Outlet />
